@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "ordinarycrook",
+  "version": "${version}",
+  "name": "Ordinary Crook",
+  "description": "the mod that only adds ExNihiloAdscensio's crook",
+  "authors": [
+    "Pitan"
+  ],
+  "contact": {
+    "website": "https://www.curseforge.com/minecraft/mc-mods/ordinary-crook",
+    "repo": "https://github.com/Pitan76/ordinary-crook",
+    "issues": "https://github.com/Pitan76/ordinary-crook/issues"
+  },
+  "license": "MIT",
+  "icon": "icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "ml.pkom.ordinarycrook.fabric.OrdinaryCrookFabric"
+    ]
+  },
+  "mixins": [
+    "ordinarycrook.mixins.json",
+    "ordinarycrook-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": "*"
+  }
+}
