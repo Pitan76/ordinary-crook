@@ -7,7 +7,9 @@ import ml.pkom.ordinarycrook.OrdinaryCrook;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -62,5 +64,14 @@ public class BaseCrook extends ToolItem {
             return 3.5F;
         }
         return super.getMiningSpeedMultiplier(stack, state);
+    }
+
+    @Override
+    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+        if (state.getHardness(world, pos) != 0.0F) {
+            stack.damage(1, miner, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        }
+
+        return true;
     }
 }

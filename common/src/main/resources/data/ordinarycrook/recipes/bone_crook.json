@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "XX",
+    " X",
+    " X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:bone"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "ordinarycrook:bone_crook"
+  }
+}
