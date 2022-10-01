@@ -66,7 +66,6 @@ public class BaseCrook extends ToolItem {
         return super.getMiningSpeedMultiplier(stack, state);
     }
 
-    @Override
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (state.getHardness(world, pos) != 0.0F) {
             stack.damage(1, miner, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
