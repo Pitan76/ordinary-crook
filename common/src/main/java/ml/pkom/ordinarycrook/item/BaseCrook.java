@@ -1,7 +1,5 @@
 package ml.pkom.ordinarycrook.item;
 
-import dev.architectury.event.EventResult;
-import dev.architectury.event.events.common.BlockEvent;
 import ml.pkom.mcpitanlibarch.api.entity.Player;
 import ml.pkom.ordinarycrook.OrdinaryCrook;
 import net.minecraft.block.Block;
@@ -10,6 +8,7 @@ import net.minecraft.block.LeavesBlock;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
@@ -22,25 +21,6 @@ import java.util.List;
 public class BaseCrook extends ToolItem {
     public BaseCrook(ToolMaterial material, Settings settings) {
         super(material, settings);
-        BlockEvent.BREAK.register((level, pos, state, playerEntity, xp) -> {
-            Player player = new Player(playerEntity);
-            ItemStack mainHandStack = player.getEntity().getMainHandStack();
-            if (BaseCrook.isCrook(mainHandStack)) {
-                if (level.isClient) return EventResult.pass();
-                if (player.isCreative()) return EventResult.pass();
-
-                randomDrop(level, state, pos);
-                randomDrop(level, state, pos);
-                if (mainHandStack.isOf(OrdinaryCrook.BONE_CROOK.get())) {
-                    randomDrop(level, state, pos);
-                    randomDrop(level, state, pos);
-                    randomDrop(level, state, pos);
-                }
-
-                return EventResult.interruptDefault();
-            }
-            return EventResult.pass();
-        });
     }
 
     public static void randomDrop(World level, BlockState state, BlockPos pos) {
@@ -69,6 +49,23 @@ public class BaseCrook extends ToolItem {
     public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
         if (state.getHardness(world, pos) != 0.0F) {
             stack.damage(1, miner, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        }
+        if (miner instanceof PlayerEntity) {
+            Player player = new Player((PlayerEntity) miner);
+            ItemStack mainHandStack = miner.getMainHandStack();
+            if (BaseCrook.isCrook(mainHandStack)) {
+                if (world.isClient) return true;
+                if (player.isCreative()) return true;
+
+                randomDrop(world, state, pos);
+                randomDrop(world, state, pos);
+                if (mainHandStack.isOf(OrdinaryCrook.BONE_CROOK.get())) {
+                    randomDrop(world, state, pos);
+                    randomDrop(world, state, pos);
+                    randomDrop(world, state, pos);
+                }
+
+            }
         }
 
         return true;
