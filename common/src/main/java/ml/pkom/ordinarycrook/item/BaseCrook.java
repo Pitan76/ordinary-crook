@@ -59,7 +59,7 @@ public class BaseCrook extends ToolItem {
 
                 randomDrop(world, state, pos);
                 randomDrop(world, state, pos);
-                if (mainHandStack.isOf(OrdinaryCrook.BONE_CROOK.get())) {
+                if (mainHandStack.getItem() == OrdinaryCrook.BONE_CROOK.get()) {
                     randomDrop(world, state, pos);
                     randomDrop(world, state, pos);
                     randomDrop(world, state, pos);
