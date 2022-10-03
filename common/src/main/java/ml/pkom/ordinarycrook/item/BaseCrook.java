@@ -40,7 +40,7 @@ public class BaseCrook extends ToolItem {
 
     public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
         if (state.getBlock() instanceof LeavesBlock) {
-            if (stack.isOf(OrdinaryCrook.BONE_CROOK.get())) return 4.5F;
+            if (stack.getItem() == OrdinaryCrook.BONE_CROOK.get()) return 4.5F;
             return 3.5F;
         }
         return super.getMiningSpeedMultiplier(stack, state);
