@@ -13,14 +13,23 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.List;
 
 public class BaseCrook extends ToolItem {
-    public BaseCrook(ToolMaterial material, Settings settings) {
+
+    public int dropMultiple;
+    public float speed;
+
+    public BaseCrook(ToolMaterial material, Settings settings, int dropMultiple, float speed) {
         super(material, settings);
+        this.dropMultiple = dropMultiple;
+        this.speed = speed;
     }
 
     public static void randomDrop(World level, BlockState state, BlockPos pos) {
@@ -40,8 +49,7 @@ public class BaseCrook extends ToolItem {
 
     public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
         if (state.getBlock() instanceof LeavesBlock) {
-            if (stack.getItem() == OrdinaryCrook.BONE_CROOK.get()) return 4.5F;
-            return 3.5F;
+            return speed;
         }
         return super.getMiningSpeedMultiplier(stack, state);
     }
@@ -57,17 +65,23 @@ public class BaseCrook extends ToolItem {
                 if (world.isClient) return true;
                 if (player.isCreative()) return true;
 
-                randomDrop(world, state, pos);
-                randomDrop(world, state, pos);
-                if (mainHandStack.getItem() == OrdinaryCrook.BONE_CROOK.get()) {
-                    randomDrop(world, state, pos);
-                    randomDrop(world, state, pos);
+                for (int i = 1; i <= speed; i++) {
                     randomDrop(world, state, pos);
                 }
-
             }
         }
 
         return true;
+    }
+
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        Vec3d movePos = user.getPos().subtract(entity.getPos());
+        movePos = movePos.subtract(user.getRotationVector());
+        movePos = movePos.multiply(0.25);
+        entity.setVelocity(movePos);
+        entity.fallDistance = 0F;
+        entity.velocityModified = true;
+
+        return ActionResult.SUCCESS;
     }
 }

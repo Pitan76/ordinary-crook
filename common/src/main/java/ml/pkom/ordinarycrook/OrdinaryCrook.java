@@ -28,10 +28,16 @@ public class OrdinaryCrook {
     public static RegistryEvent<Item> WOODEN_CROOK;
 
     public static RegistryEvent<Item> BONE_CROOK;
+    public static RegistryEvent<Item> STONE_CROOK;
+    public static RegistryEvent<Item> BLAZE_ROD_CROOK;
+    public static RegistryEvent<Item> WITHERED_BONE_CROOK;
 
     public static void init() {
-        WOODEN_CROOK = registry.registerItem(id("wooden_crook"), () -> new BaseCrook(ToolMaterials.WOOD, new Item.Settings().group(ItemGroup.TOOLS)));
-        BONE_CROOK = registry.registerItem(id("bone_crook"), () -> new BaseCrook(ToolMaterials.STONE, new Item.Settings().group(ItemGroup.TOOLS)));
+        WOODEN_CROOK = registry.registerItem(id("wooden_crook"), () -> new BaseCrook(ToolMaterials.WOOD, new Item.Settings().group(ItemGroup.TOOLS), 1, 3.0F));
+        BONE_CROOK = registry.registerItem(id("bone_crook"), () -> new BaseCrook(ToolMaterials.STONE, new Item.Settings().group(ItemGroup.TOOLS), 2, 3.5F));
+        STONE_CROOK = registry.registerItem(id("stone_crook"), () -> new BaseCrook(ToolMaterials.STONE, new Item.Settings().group(ItemGroup.TOOLS), 3, 4.0F));
+        BLAZE_ROD_CROOK = registry.registerItem(id("blaze_rod_crook"), () -> new BaseCrook(ToolMaterials.GOLD, new Item.Settings().group(ItemGroup.TOOLS), 5, 4.5F));
+        WITHERED_BONE_CROOK = registry.registerItem(id("withered_bone_crook"), () -> new BaseCrook(ToolMaterials.IRON, new Item.Settings().group(ItemGroup.TOOLS), 7, 5.0F));
 
         registry.allRegister();
     }

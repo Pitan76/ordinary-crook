@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "XX",
+    " X",
+    " X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:blaze_rod"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "ordinarycrook:blaze_rod_crook"
+  }
+}

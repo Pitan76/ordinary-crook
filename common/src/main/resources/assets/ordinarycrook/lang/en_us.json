@@ -1,4 +1,7 @@
 {
   "item.ordinarycrook.wooden_crook": "Wooden Crook",
-  "item.ordinarycrook.bone_crook": "Bone Crook"
+  "item.ordinarycrook.bone_crook": "Bone Crook",
+  "item.ordinarycrook.stone_crook": "Stone Crook",
+  "item.ordinarycrook.blaze_rod_crook": "Blaze Rod Crook",
+  "item.ordinarycrook.withered_bone_crook": "Withered Bone Crook"
 }

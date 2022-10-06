@@ -1,0 +1,17 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "XX",
+    " X",
+    " X"
+  ],
+  "key": {
+    "X": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "count": 1,
+    "item": "ordinarycrook:withered_bone_crook"
+  }
+}
