@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "ordinarycrook:items/withered_bone_crook"
+    "layer0": "ordinarycrook:item/withered_bone_crook"
   }
 }

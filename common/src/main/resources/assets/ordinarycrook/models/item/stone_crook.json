@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "ordinarycrook:items/stone_crook"
+    "layer0": "ordinarycrook:item/stone_crook"
   }
 }
