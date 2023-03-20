@@ -1,7 +1,8 @@
 package ml.pkom.ordinarycrook.item;
 
 import ml.pkom.mcpitanlibarch.api.entity.Player;
-import ml.pkom.ordinarycrook.OrdinaryCrook;
+import ml.pkom.mcpitanlibarch.api.item.CompatibleItemSettings;
+import ml.pkom.mcpitanlibarch.api.util.WorldUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
@@ -26,8 +27,8 @@ public class BaseCrook extends ToolItem {
     public int dropMultiple;
     public float speed;
 
-    public BaseCrook(ToolMaterial material, Settings settings, int dropMultiple, float speed) {
-        super(material, settings);
+    public BaseCrook(ToolMaterial material, CompatibleItemSettings settings, int dropMultiple, float speed) {
+        super(material, settings.build());
         this.dropMultiple = dropMultiple;
         this.speed = speed;
     }
@@ -35,7 +36,7 @@ public class BaseCrook extends ToolItem {
     public static void randomDrop(World level, BlockState state, BlockPos pos) {
         List<ItemStack> droppedStacks = Block.getDroppedStacks(state, (ServerWorld) level, pos, null);
         for (ItemStack stack : droppedStacks) {
-            level.spawnEntity(new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack));
+            WorldUtil.spawnEntity(level, new ItemEntity(level, pos.getX(), pos.getY(), pos.getZ(), stack));
         }
     }
 
