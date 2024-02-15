@@ -1,7 +1,7 @@
-package ml.pkom.ordinarycrook.fabric;
+package net.pitan76.ordinarycrook.fabric;
 
-import ml.pkom.ordinarycrook.OrdinaryCrook;
 import net.fabricmc.api.ModInitializer;
+import net.pitan76.ordinarycrook.OrdinaryCrook;
 
 public class OrdinaryCrookFabric implements ModInitializer {
     @Override

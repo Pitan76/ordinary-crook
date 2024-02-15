@@ -1,9 +1,9 @@
-package ml.pkom.ordinarycrook.forge;
+package net.pitan76.ordinarycrook.forge;
 
 import dev.architectury.platform.forge.EventBuses;
-import ml.pkom.ordinarycrook.OrdinaryCrook;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.pitan76.ordinarycrook.OrdinaryCrook;
 
 @Mod(OrdinaryCrook.MOD_ID)
 public class OrdinaryCrookForge {

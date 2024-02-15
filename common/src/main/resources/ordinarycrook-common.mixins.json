@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "ml.pkom.ordinarycrook.mixin.forge",
+  "package": "net.pitan76.ordinarycrook.mixin.forge",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
   ],

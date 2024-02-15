@@ -17,7 +17,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "ml.pkom.ordinarycrook.fabric.OrdinaryCrookFabric"
+      "net.pitan76.ordinarycrook.fabric.OrdinaryCrookFabric"
     ]
   },
   "mixins": [
@@ -27,6 +27,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "mcpitanlibarch": ">1.5.5"
+    "mcpitanlib": ">2.0.0"
   }
 }
