@@ -8,7 +8,6 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ToolItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
@@ -17,12 +16,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolItem;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 
 import java.util.List;
 
-public class BaseCrook extends ToolItem {
+public class BaseCrook extends CompatibleToolItem {
 
     public int dropMultiple;
     public float speed;
@@ -44,20 +45,26 @@ public class BaseCrook extends ToolItem {
         return stack.getItem() instanceof BaseCrook;
     }
 
-    public boolean isSuitableFor(BlockState state) {
+    public boolean overrideIsSuitableFor(BlockState state) {
         return state.getBlock() instanceof LeavesBlock;
     }
 
-    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state) {
+    public float overrideGetMiningSpeedMultiplier(ItemStack stack, BlockState state) {
         if (state.getBlock() instanceof LeavesBlock) {
             return speed;
         }
-        return super.getMiningSpeedMultiplier(stack, state);
+        return super.overrideGetMiningSpeedMultiplier(stack, state);
     }
 
-    public boolean postMine(ItemStack stack, World world, BlockState state, BlockPos pos, LivingEntity miner) {
+    public boolean postMine(PostMineEvent e) {
+        World world = e.world;
+        BlockState state = e.state;
+        BlockPos pos = e.pos;
+        LivingEntity miner = e.miner;
+
         if (state.getHardness(world, pos) != 0.0F) {
-            stack.damage(1, miner, (e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+            e.damageStack(1, EquipmentSlot.MAINHAND);
+            //e.stack.damage(1, miner, (e2) -> e2.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
         }
         if (miner instanceof PlayerEntity) {
             Player player = new Player((PlayerEntity) miner);

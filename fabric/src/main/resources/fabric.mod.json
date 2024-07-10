@@ -20,13 +20,9 @@
       "net.pitan76.ordinarycrook.fabric.OrdinaryCrookFabric"
     ]
   },
-  "mixins": [
-    "ordinarycrook.mixins.json",
-    "ordinarycrook-common.mixins.json"
-  ],
   "depends": {
     "fabricloader": "*",
     "minecraft": "*",
-    "mcpitanlib": ">2.0.0"
+    "mcpitanlib": ">2.3.1"
   }
 }
