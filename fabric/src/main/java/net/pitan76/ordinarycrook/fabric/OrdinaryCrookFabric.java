@@ -6,6 +6,6 @@ import net.pitan76.ordinarycrook.OrdinaryCrook;
 public class OrdinaryCrookFabric implements ModInitializer {
     @Override
     public void onInitialize() {
-        OrdinaryCrook.init();
+        new OrdinaryCrook();
     }
 }

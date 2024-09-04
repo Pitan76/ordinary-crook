@@ -9,6 +9,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -16,10 +17,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolItem;
+import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
+import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 
 import java.util.List;
 
@@ -30,6 +35,12 @@ public class BaseCrook extends CompatibleToolItem {
 
     public BaseCrook(ToolMaterial material, CompatibleItemSettings settings, int dropMultiple, float speed) {
         super(material, settings.build());
+        this.dropMultiple = dropMultiple;
+        this.speed = speed;
+    }
+
+    public BaseCrook(CompatibleToolMaterial material, CompatibleItemSettings settings, int dropMultiple, float speed) {
+        super(material, settings);
         this.dropMultiple = dropMultiple;
         this.speed = speed;
     }
@@ -45,32 +56,33 @@ public class BaseCrook extends CompatibleToolItem {
         return stack.getItem() instanceof BaseCrook;
     }
 
+    @Override
     public boolean overrideIsSuitableFor(BlockState state) {
         return state.getBlock() instanceof LeavesBlock;
     }
 
+    @Override
     public float overrideGetMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        if (state.getBlock() instanceof LeavesBlock) {
+        if (state.getBlock() instanceof LeavesBlock)
             return speed;
-        }
+
         return super.overrideGetMiningSpeedMultiplier(stack, state);
     }
 
     public boolean postMine(PostMineEvent e) {
         World world = e.world;
-        BlockState state = e.state;
         BlockPos pos = e.pos;
+        BlockState state = e.state;
         LivingEntity miner = e.miner;
 
-        if (state.getHardness(world, pos) != 0.0F) {
-            e.damageStack(1, EquipmentSlot.MAINHAND);
-            //e.stack.damage(1, miner, (e2) -> e2.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-        }
         if (miner instanceof PlayerEntity) {
+            if (state.getHardness(world, pos) != 0.0F)
+                e.damageStack(1, EquipmentSlot.MAINHAND);
+
             Player player = new Player((PlayerEntity) miner);
-            ItemStack mainHandStack = miner.getMainHandStack();
+            ItemStack mainHandStack = player.getMainHandStack();
             if (BaseCrook.isCrook(mainHandStack)) {
-                if (world.isClient) return true;
+                if (e.isClient()) return true;
                 if (player.isCreative()) return true;
 
                 for (int i = 1; i <= speed; i++) {
@@ -82,14 +94,23 @@ public class BaseCrook extends CompatibleToolItem {
         return true;
     }
 
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+    @Override
+    public ActionResult onRightClickOnEntity(ItemUseOnEntityEvent e, Options options) {
+        LivingEntity entity = e.entity;
+        Player user = e.user;
+
         Vec3d movePos = user.getPos().subtract(entity.getPos());
-        movePos = movePos.subtract(user.getRotationVector());
-        movePos = movePos.multiply(0.25);
+        movePos = Vec3dUtil.subtract(movePos, user.getEntity().getRotationVector());
+        movePos = Vec3dUtil.multiply(movePos, 0.25);
+
         entity.setVelocity(movePos);
         entity.fallDistance = 0F;
         entity.velocityModified = true;
 
         return ActionResult.SUCCESS;
+    }
+
+    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
+        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), new Options());
     }
 }

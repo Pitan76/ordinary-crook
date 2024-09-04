@@ -10,6 +10,6 @@ public class OrdinaryCrookForge {
     public OrdinaryCrookForge() {
         // Submit our event bus to let architectury register our content on the right time
         EventBuses.registerModEventBus(OrdinaryCrook.MOD_ID, FMLJavaModLoadingContext.get().getModEventBus());
-        OrdinaryCrook.init();
+        new OrdinaryCrook();
     }
 }
