@@ -99,7 +99,7 @@ public class BaseCrook extends CompatibleToolItem {
         LivingEntity entity = e.entity;
         Player user = e.user;
 
-        Vec3d movePos = user.getPos().subtract(entity.getPos());
+        Vec3d movePos = Vec3dUtil.subtract(user.getPos(), entity.getPos());
         movePos = Vec3dUtil.subtract(movePos, user.getEntity().getRotationVector());
         movePos = Vec3dUtil.multiply(movePos, 0.25);
 
