@@ -1,13 +1,13 @@
 package net.pitan76.ordinarycrook;
 
 import net.minecraft.item.Item;
-import net.minecraft.item.ToolMaterials;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
+import net.pitan76.mcpitanlib.api.item.v3.VanillaCompatToolMaterial;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 import net.pitan76.ordinarycrook.item.BaseCrook;
 
 public class OrdinaryCrook extends CommonModInitializer {
@@ -27,11 +27,11 @@ public class OrdinaryCrook extends CommonModInitializer {
         INSTANCE = this;
         registry = super.registry;
 
-        WOODEN_CROOK = registry.registerItem(compatId("wooden_crook"), () -> new BaseCrook(ToolMaterials.WOOD, CompatibleItemSettings.of().addGroup(() -> DefaultItemGroups.TOOLS, id("wooden_crook")), 1, 3.0F));
-        BONE_CROOK = registry.registerItem(compatId("bone_crook"), () -> new BaseCrook(ToolMaterials.STONE, CompatibleItemSettings.of().addGroup(() -> DefaultItemGroups.TOOLS, id("bone_crook")), 2, 3.5F));
-        STONE_CROOK = registry.registerItem(compatId("stone_crook"), () -> new BaseCrook(ToolMaterials.STONE, CompatibleItemSettings.of().addGroup(() -> DefaultItemGroups.TOOLS, id("stone_crook")), 3, 4.0F));
-        BLAZE_ROD_CROOK = registry.registerItem(compatId("blaze_rod_crook"), () -> new BaseCrook(ToolMaterials.GOLD, CompatibleItemSettings.of().addGroup(() -> DefaultItemGroups.TOOLS, id("blaze_rod_crook")), 5, 4.5F));
-        WITHERED_BONE_CROOK = registry.registerItem(compatId("withered_bone_crook"), () -> new BaseCrook(ToolMaterials.IRON, CompatibleItemSettings.of().addGroup(() -> DefaultItemGroups.TOOLS, id("withered_bone_crook")), 7, 5.0F));
+        WOODEN_CROOK = registry.registerItem(_id("wooden_crook"), () -> new BaseCrook(VanillaCompatToolMaterial.WOOD, CompatibleItemSettings.of(_id("wooden_crook")).addGroup(ItemGroups.TOOLS), 1, 3.0F));
+        BONE_CROOK = registry.registerItem(_id("bone_crook"), () -> new BaseCrook(VanillaCompatToolMaterial.STONE, CompatibleItemSettings.of(_id("bone_crook")).addGroup(ItemGroups.TOOLS), 2, 3.5F));
+        STONE_CROOK = registry.registerItem(_id("stone_crook"), () -> new BaseCrook(VanillaCompatToolMaterial.STONE, CompatibleItemSettings.of(_id("stone_crook")).addGroup(ItemGroups.TOOLS), 3, 4.0F));
+        BLAZE_ROD_CROOK = registry.registerItem(_id("blaze_rod_crook"), () -> new BaseCrook(VanillaCompatToolMaterial.GOLD, CompatibleItemSettings.of(_id("blaze_rod_crook")).addGroup(ItemGroups.TOOLS), 5, 4.5F));
+        WITHERED_BONE_CROOK = registry.registerItem(_id("withered_bone_crook"), () -> new BaseCrook(VanillaCompatToolMaterial.IRON, CompatibleItemSettings.of(_id("withered_bone_crook")).addGroup(ItemGroups.TOOLS), 7, 5.0F));
     }
 
     public static CompatIdentifier _id(String id) {
