@@ -19,11 +19,8 @@ import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleMiningToolItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
-import net.pitan76.mcpitanlib.api.tag.TagKey;
-import net.pitan76.mcpitanlib.api.util.CompatActionResult;
-import net.pitan76.mcpitanlib.api.util.EntityUtil;
-import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
-import net.pitan76.mcpitanlib.api.util.WorldUtil;
+import net.pitan76.mcpitanlib.api.tag.v2.typed.BlockTagKey;
+import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 
@@ -35,7 +32,7 @@ public class BaseCrook extends CompatibleMiningToolItem {
     public float speed;
 
     public BaseCrook(CompatibleToolMaterial material, CompatibleItemSettings settings, int dropMultiple, float speed) {
-        super(material, 0, 0f, (TagKey<Block>) TagKey.create(TagKey.Type.BLOCK, IdentifierUtil.id("leaves")), settings);
+        super(material, 0, 0f, BlockTagKey.of(CompatIdentifier.of("leaves")), settings);
         this.dropMultiple = dropMultiple;
         this.speed = speed;
     }
@@ -99,7 +96,6 @@ public class BaseCrook extends CompatibleMiningToolItem {
         movePos = Vec3dUtil.multiply(movePos, 0.25);
 
         EntityUtil.setVelocity(entity, movePos.getX(), movePos.getY(), movePos.getZ());
-        entity.setVelocity(movePos);
         entity.fallDistance = 0F;
         entity.velocityModified = true;
 
