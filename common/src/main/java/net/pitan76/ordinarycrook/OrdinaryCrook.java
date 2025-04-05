@@ -3,11 +3,9 @@ package net.pitan76.ordinarycrook;
 import net.minecraft.item.Item;
 import net.pitan76.mcpitanlib.api.CommonModInitializer;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.item.v3.VanillaCompatToolMaterial;
 import net.pitan76.mcpitanlib.api.registry.result.RegistryResult;
 import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
-import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 import net.pitan76.ordinarycrook.item.BaseCrook;
 

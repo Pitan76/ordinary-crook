@@ -18,10 +18,10 @@ import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleMiningToolItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolItem;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
 import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.EntityUtil;
 import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
@@ -58,10 +58,10 @@ public class BaseCrook extends CompatibleMiningToolItem {
 
     @Override
     public float overrideGetMiningSpeedMultiplier(ItemStack stack, BlockState state) {
-        if (state.getBlock() instanceof LeavesBlock)
+        if (overrideIsSuitableFor(state))
             return speed;
 
-        return super.overrideGetMiningSpeedMultiplier(stack, state);
+        return 0.0F;
     }
 
     public boolean postMine(PostMineEvent e) {
@@ -98,6 +98,7 @@ public class BaseCrook extends CompatibleMiningToolItem {
         movePos = Vec3dUtil.subtract(movePos, user.getEntity().getRotationVector());
         movePos = Vec3dUtil.multiply(movePos, 0.25);
 
+        EntityUtil.setVelocity(entity, movePos.getX(), movePos.getY(), movePos.getZ());
         entity.setVelocity(movePos);
         entity.fallDistance = 0F;
         entity.velocityModified = true;
