@@ -16,23 +16,26 @@ import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.item.PostMineEvent;
+import net.pitan76.mcpitanlib.api.item.tool.CompatibleMiningToolItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolItem;
 import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
+import net.pitan76.mcpitanlib.api.tag.TagKey;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.IdentifierUtil;
 import net.pitan76.mcpitanlib.api.util.WorldUtil;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 
 import java.util.List;
 
-public class BaseCrook extends CompatibleToolItem {
+public class BaseCrook extends CompatibleMiningToolItem {
 
     public int dropMultiple;
     public float speed;
 
     public BaseCrook(CompatibleToolMaterial material, CompatibleItemSettings settings, int dropMultiple, float speed) {
-        super(material, settings);
+        super(material, 0, 0f, (TagKey<Block>) TagKey.create(TagKey.Type.BLOCK, IdentifierUtil.id("leaves")), settings);
         this.dropMultiple = dropMultiple;
         this.speed = speed;
     }
