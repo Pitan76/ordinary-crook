@@ -1,15 +1,12 @@
 package net.pitan76.ordinarycrook.item;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -23,6 +20,7 @@ import net.pitan76.mcpitanlib.api.tag.v2.typed.BlockTagKey;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
 import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
+import net.pitan76.mcpitanlib.api.util.world.ServerWorldUtil;
 
 import java.util.List;
 
@@ -37,10 +35,10 @@ public class BaseCrook extends CompatibleMiningToolItem {
         this.speed = speed;
     }
 
-    public static void randomDrop(World level, BlockState state, BlockPos pos) {
-        List<ItemStack> droppedStacks = Block.getDroppedStacks(state, (ServerWorld) level, pos, null);
+    public static void randomDrop(World world, BlockState state, BlockPos pos) {
+        List<ItemStack> droppedStacks = ServerWorldUtil.getDroppedStacksOnBlock(state, (ServerWorld) world, pos, (BlockEntity) null);
         for (ItemStack stack : droppedStacks) {
-            WorldUtil.spawnEntity(level, ItemEntityUtil.create(level, pos.getX(), pos.getY(), pos.getZ(), stack));
+            WorldUtil.spawnEntity(world, ItemEntityUtil.create(world, pos, stack));
         }
     }
 
@@ -68,15 +66,11 @@ public class BaseCrook extends CompatibleMiningToolItem {
         LivingEntity miner = e.miner;
 
         if (miner instanceof PlayerEntity) {
-            if (state.getHardness(world, pos) != 0.0F)
-                e.damageStack(1, EquipmentSlot.MAINHAND);
+            if (e.isClient() || e.isCreative()) return true;
+            if (BlockStateUtil.getHardness(state, world, pos) != 0.0F)
+                e.damageStack(1);
 
-            Player player = new Player((PlayerEntity) miner);
-            ItemStack mainHandStack = player.getMainHandStack();
-            if (BaseCrook.isCrook(mainHandStack)) {
-                if (e.isClient()) return true;
-                if (player.isCreative()) return true;
-
+            if (BaseCrook.isCrook(e.getMainHandStack())) {
                 for (int i = 1; i <= speed; i++) {
                     randomDrop(world, state, pos);
                 }
@@ -87,23 +81,18 @@ public class BaseCrook extends CompatibleMiningToolItem {
     }
 
     @Override
-    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e, Options options) {
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
         LivingEntity entity = e.entity;
         Player user = e.user;
 
         Vec3d movePos = Vec3dUtil.subtract(user.getPos(), entity.getPos());
-        movePos = Vec3dUtil.subtract(movePos, user.getEntity().getRotationVector());
+        movePos = Vec3dUtil.subtract(movePos, EntityUtil.getRotationVector(user.getEntity()));
         movePos = Vec3dUtil.multiply(movePos, 0.25);
 
-        EntityUtil.setVelocity(entity, movePos.getX(), movePos.getY(), movePos.getZ());
-        entity.fallDistance = 0F;
-        entity.velocityModified = true;
+        EntityUtil.setVelocity(entity, movePos);
+        EntityUtil.setFallDistance(entity, 0F);
+        EntityUtil.setVelocityModified(entity, true);
 
         return CompatActionResult.SUCCESS;
-    }
-
-    @Override
-    public ActionResult useOnEntity(ItemStack stack, PlayerEntity user, LivingEntity entity, Hand hand) {
-        return onRightClickOnEntity(new ItemUseOnEntityEvent(stack, user, entity, hand), new Options()).toActionResult();
     }
 }

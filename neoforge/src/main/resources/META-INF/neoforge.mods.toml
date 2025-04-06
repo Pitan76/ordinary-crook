@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "[0,)"
+license = "MIT"
+issueTrackerURL = "https://github.com/Pitan76/ordinary-crook/issues"
+
+[[mods]]
+modId = "ordinarycrook"
+version = "${version}"
+displayName="Ordinary Crook"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/ordinary-crook"
+logoFile = "assets/ordinarycrook/icon.png"
+authors = "Pitan"
+description = '''
+the mod that only adds ExNihiloAdscensio's crook
+'''
+
+[[dependencies.ordinarycrook]]
+modId = "neoforge"
+mandatory = true
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.ordinarycrook]]
+modId = "minecraft"
+type = "required"
+versionRange = "[0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.ordinarycrook]]
+modId = "mcpitanlib"
+type = "required"
+versionRange = "[3.0.0,)"
+ordering = "BEFORE"
+side = "BOTH"
