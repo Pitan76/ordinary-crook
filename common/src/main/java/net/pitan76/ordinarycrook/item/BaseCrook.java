@@ -8,7 +8,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
@@ -19,8 +18,8 @@ import net.pitan76.mcpitanlib.api.item.tool.CompatibleToolMaterial;
 import net.pitan76.mcpitanlib.api.tag.v2.typed.BlockTagKey;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.entity.ItemEntityUtil;
-import net.pitan76.mcpitanlib.api.util.math.Vec3dUtil;
 import net.pitan76.mcpitanlib.api.util.world.ServerWorldUtil;
+import net.pitan76.mcpitanlib.midohra.util.math.Vector3d;
 
 import java.util.List;
 
@@ -85,11 +84,15 @@ public class BaseCrook extends CompatibleMiningToolItem {
         LivingEntity entity = e.entity;
         Player user = e.user;
 
-        Vec3d movePos = Vec3dUtil.subtract(user.getPos(), entity.getPos());
-        movePos = Vec3dUtil.subtract(movePos, EntityUtil.getRotationVector(user.getEntity()));
-        movePos = Vec3dUtil.multiply(movePos, 0.25);
+        Vector3d userPos = Vector3d.of(user.getPos());
+        Vector3d entityPos = EntityUtil.getPosM(entity);
 
-        EntityUtil.setVelocity(entity, movePos);
+        Vector3d movePos = userPos.sub(entityPos);
+        Vector3d rotatedMovePos = Vector3d.of(EntityUtil.getRotationVector(user.getEntity()));
+
+        movePos = movePos.sub(rotatedMovePos).mul(0.25);
+
+        EntityUtil.setVelocity(entity, movePos.x, movePos.y, movePos.z);
         EntityUtil.setFallDistance(entity, 0F);
         EntityUtil.setVelocityModified(entity, true);
 
