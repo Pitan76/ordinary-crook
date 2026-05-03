@@ -46,7 +46,7 @@ public class BaseCrook extends CompatMiningToolItem {
     }
 
     public static boolean isCrook(ItemStack stack) {
-        return stack.getRawItem() instanceof BaseCrook;
+        return stack.getItem().instanceOf(BaseCrook.class);
     }
 
     @Override
