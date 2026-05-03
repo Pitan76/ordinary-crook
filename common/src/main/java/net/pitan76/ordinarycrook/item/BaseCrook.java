@@ -34,11 +34,12 @@ public class BaseCrook extends CompatMiningToolItem {
     }
 
     public static void randomDrop(World world, BlockState state, BlockPos pos) {
-        ServerWorld serverWorld = world.toServerWorld().get();
-        List<ItemStack> droppedStacks = getDroppedStacksOnBlock(state, serverWorld, pos);
-        for (ItemStack stack : droppedStacks) {
-            ItemEntityUtil.createWithSpawn(world, stack, pos);
-        }
+        world.toServerWorld().ifPresent((serverWorld) -> {
+            List<ItemStack> droppedStacks = getDroppedStacksOnBlock(state, serverWorld, pos);
+            for (ItemStack stack : droppedStacks) {
+                ItemEntityUtil.createWithSpawn(world, stack, pos);
+            }
+        });
     }
 
     public static List<ItemStack> getDroppedStacksOnBlock(BlockState state, ServerWorld world, BlockPos pos) {
